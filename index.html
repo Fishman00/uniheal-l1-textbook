@@ -40,20 +40,15 @@
         }
 
         function unlock() {
-            document.documentElement.style.display = '';
-            document.body.style.visibility = '';
-            document.body.style.overflow = '';
-            var ol = document.getElementById('auth_overlay');
-            if (ol) ol.remove();
-            localStorage.setItem(CFG.k, JSON.stringify({ok:1, e: CFG.e}));
-            var iv = setInterval(function() {
-                if (Date.now() > CFG.e) {
-                    clearInterval(iv);
-                    showExpired();
-                    localStorage.removeItem(CFG.k);
-                }
-            }, 60000);
-        }
+    document.documentElement.style.display = '';
+    document.body.style.visibility = '';
+    document.body.style.overflow = '';
+    var ol = document.getElementById('auth_overlay');
+    if (ol) ol.remove();
+    
+    // 核心：只保留这一句写入本地缓存，去掉下面磨人的 setInterval 定时器
+    localStorage.setItem(CFG.k, JSON.stringify({ok: 1, e: CFG.e})); 
+}
 
         function showExpired() {
             document.documentElement.style.display = '';
